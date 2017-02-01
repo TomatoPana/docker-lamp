@@ -1,0 +1,6 @@
+FROM phpmyadmin/phpmyadmin
+
+RUN apk add --update bash && rm -rf /var/cache/apk/*
+
+COPY schema/phpmyadmin/config.user.inc.php /www/config.user.inc.php
+COPY schema/phpmyadmin/config.inc.php /www/config.inc.php
