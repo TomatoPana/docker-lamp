@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
       nano \
       libmysqlclient-dev libmcrypt-dev \
       vim vim-common vim-gnome \
+      git \
+      zip \
       && docker-php-ext-install mysqli \
       && docker-php-ext-install pdo pdo_mysql mbstring mcrypt
 
