@@ -2,6 +2,7 @@ version: '2'
 services: 
   web: 
     build: "."
+    container_name: las_web_1
     depends_on:
       - db
       - redis
@@ -12,30 +13,26 @@ services:
       - "8090:80"
     restart: always
     volumes: 
-      - "~/.data/www:/var/www/html/"
-  db:
-    image: mysql:5.7
-    container_name: db_1
-    volumes:
-      - "~/.data/db:/var/lib/mysql"
-    ports:
-      - "3307:3306"
-    restart: always
-    environment:
-       MYSQL_ROOT_PASSWORD: dev123
-       MYSQL_DATABASE: test
-       MYSQL_USER: dev
-       MYSQL_PASSWORD: dev123
+      - "./www:/var/www/html/"
+    networks:
+      default:
+        ipv4_address: 172.19.0.5
   redis:
-    image: redis    
+    image: redis
+    container_name: las_redis_1
+    restart: always
     ports:
         - 6380:6379 
     volumes:
-      - "~/.data/redis4:/data"
+      - "./redis4:/data"
+    networks:
+      default:
+        ipv4_address: 172.19.0.3
   phpmyadmin:
     build:
       context: .
       dockerfile: ./DockerfilePhpAdmin
+    container_name: las_phpmyadmin_1
     restart: always
     links:
       - db
@@ -45,15 +42,47 @@ services:
       MYSQL_USERNAME: root
       MYSQL_ROOT_PASSWORD: 123
     volumes: 
-      - "~/.data/schema/phpmyadmin/config.user.inc.php:/www/config.user.inc.php"
-  reactjs:
-    image:  deredy/react-native
-    container_name: docker-react-native
-    restart: always
-    links: 
-      - db
-      - redis
-      - web
+      - "./schema/phpmyadmin/config.user.inc.php:/www/config.user.inc.php"
+    networks:
+      default:
+        ipv4_address: 172.19.0.4
+  db:
+    build:
+      context: .
+      dockerfile: ./DockerfileSql
+    container_name: las_db_1
     volumes:
-      - "~/.data/app:/app"
+      - "./db:/var/lib/mysql"
+    ports:
+      - "3307:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: test
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev123
+    networks:
+      default:
+        ipv4_address: 172.19.0.2
+  #reactjs:
+  #  image:  deredy/react-native
+  #  container_name: react_1
+  #  container_name: docker-react-native
+  #  restart: always
+  #  links:
+  #    - db
+  #    - redis
+  #    - web
+  #  volumes:
+  #    - "./app:/app"
+  #  networks:
+  #    default:
+  #      ipv4_address: 172.19.0.5
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/24
     #command: "sh ~/.data/scripts/permissions.sh"
