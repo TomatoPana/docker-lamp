@@ -14,6 +14,7 @@ services:
     restart: always
     volumes: 
       - "./www:/var/www/html/"
+      - "./scripts/apache/sites.php:/etc/apache2/sites-available/sites.conf"
     networks:
       default:
         ipv4_address: 172.19.0.5
@@ -39,7 +40,6 @@ services:
     ports:
       - 8092:80
     environment:
-      MYSQL_USERNAME: root
       MYSQL_ROOT_PASSWORD: 123
     volumes: 
       - "./schema/phpmyadmin/config.user.inc.php:/www/config.user.inc.php"
