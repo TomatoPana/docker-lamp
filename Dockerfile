@@ -8,10 +8,11 @@ RUN apt-get update && apt-get install -y \
       libmysqlclient-dev libmcrypt-dev \
       vim vim-common vim-gnome \
       git \
-      zip \
-      a2enmod rewrite \
-      && docker-php-ext-install mysqli \
-      && docker-php-ext-install pdo pdo_mysql mbstring mcrypt
-      && ln -s /etc/apache2/sites-available/sites.conf /etc/apache2/sites-enabled/sites.conf
+      zip
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo pdo_mysql mbstring mcrypt
+RUN ln -s /etc/apache2/sites-available/sites.conf /etc/apache2/sites-enabled/sites.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+CMD ["a2enmod rewrite"]
