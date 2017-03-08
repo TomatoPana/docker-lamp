@@ -13,7 +13,7 @@ Apache - PHP7 - Mysql5.7 - phpmyadmin - redis
 
 change .env to add your local settings for web folders and ports to expose the services and then run:
 
-docker-compose up -d build
+docker-compose up -d --build
 
 after build is finished access mysql container and give permissions to phpmyadmin containers and web:
 
