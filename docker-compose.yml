@@ -61,6 +61,16 @@ services:
     networks:
       default:
         ipv4_address: 172.19.0.2
+  portainer:
+    image: portainer/portainer
+    container_name: portain
+    ports:
+      - "${PORTAINER_PORT}:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      default:
+        ipv4_address: 172.19.0.6
   #reactjs:
   #  image:  deredy/react-native
   #  container_name: react_1
