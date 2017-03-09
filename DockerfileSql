@@ -2,3 +2,5 @@ FROM mysql:5.7
 
 
 CMD ["mysqld"]
+
+RUN echo 'mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO root@172.19.0.4 IDENTIFIED BY '123' WITH GRANT OPTION;"' && echo 'mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO root@172.19.0.3 IDENTIFIED BY '123' WITH GRANT OPTION;"'

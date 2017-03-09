@@ -15,12 +15,4 @@ change .env to add your local settings for web folders and ports to expose the s
 
 docker-compose up -d build
 
-after build is finished access mysql container and give permissions to phpmyadmin containers and web:
-
-web:
-mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO root@172.19.0.5 IDENTIFIED BY '123' WITH GRANT OPTION;"
-
-phpmyadmin:
-mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO root@172.19.0.4 IDENTIFIED BY '123' WITH GRANT OPTION;"
-
 
